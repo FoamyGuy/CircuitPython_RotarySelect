@@ -2,10 +2,11 @@
 #
 # SPDX-License-Identifier: MIT
 """
-Demonstrates the usage of RotarySelect Widget made to run on the M5 Dial device.
+Demonstrates the usage of RotarySelect Widget made to run on the Adafruit Funhouse device.
 """
 
 import board
+import digitalio
 import displayio
 import rotaryio
 import terminalio
@@ -13,8 +14,18 @@ import vectorio
 from adafruit_display_text.bitmap_label import Label
 
 from rotaryselect import RotarySelect
+from adafruit_debouncer import Debouncer
 
-encoder = rotaryio.IncrementalEncoder(board.ENC_B, board.ENC_A)
+down_dio = digitalio.DigitalInOut(board.BUTTON_DOWN)
+down_dio.direction = digitalio.Direction.INPUT
+down_dio.pull = digitalio.Pull.DOWN
+down_debouncer = Debouncer(down_dio)
+
+up_dio = digitalio.DigitalInOut(board.BUTTON_UP)
+up_dio.direction = digitalio.Direction.INPUT
+up_dio.pull = digitalio.Pull.DOWN
+up_debouncer = Debouncer(up_dio)
+
 last_position = None
 
 SCREEN_RADIUS = 120
@@ -80,11 +91,18 @@ rotary_select = RotarySelect(
 
 main_group.append(rotary_select)
 main_group.append(selected_lbl)
-
+position = 0
 while True:
-    position = encoder.position
+    down_debouncer.update()
+    up_debouncer.update()
+
+    if up_debouncer.rose:
+        position += 1
+    if down_debouncer.rose:
+        position -= 1
+
     if last_position is None or position != last_position:
-        delta = position - last_position if last_position is not None else position
+        delta = last_position - position if last_position is not None else position
         if delta > 0:
             rotary_select.move_selection_up()
         else:
