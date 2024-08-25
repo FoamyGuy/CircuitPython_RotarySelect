@@ -2,8 +2,8 @@ Introduction
 ============
 
 
-.. image:: https://readthedocs.org/projects/circuitpython-rotaryselect/badge/?version=latest
-    :target: https://circuitpython-rotaryselect.readthedocs.io/
+.. image:: https://readthedocs.org/projects/circuitpython-rotarydial/badge/?version=latest
+    :target: https://circuitpython-rotarydial.readthedocs.io/en/latest/
     :alt: Documentation Status
 
 
