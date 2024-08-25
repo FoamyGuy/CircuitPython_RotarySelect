@@ -6,3 +6,5 @@
 Adafruit-Blinka
 adafruit-circuitpython-displayio-layout
 adafruit-circuitpython-display-text
+adafruit-circuitpython-display-shapes
+adafruit-circuitpython-imageload
